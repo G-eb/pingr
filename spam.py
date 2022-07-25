@@ -1,22 +1,27 @@
 import discord
 from discord.ext import commands
 import asyncio
+import json
 
 pingr = commands.Bot(command_prefix="_", help_command=None)
 
 # full credits of this code goes to Geb#1337
 # working versions of this bot can be found in https://discord.gg/pings
 
-spam_guild = #put guild id here
-ping_role = #put role id here
+with open("config.json") as f:
+    geb = json.load(f)
+with open("config.json") as f:
+    guildid = geb["spam_guild_id"]
+    roleid = geb["ping_role_id"]
+    bottoken = geb["bot_token"]
 
 async def ping_task():
     while True:
-        guild = pingr.get_guild(spam_guild)
+        guild = pingr.get_guild(guildid)
         for channel in guild.channels:
             if isinstance(channel, discord.TextChannel):
                 if channel.name.startswith('ping'):
-                    await channel.send(f"<@&{ping_role}>")
+                    await channel.send(f"<@&{roleid}>")
                     await asyncio.sleep(1)
                 else:
                     pass
@@ -25,10 +30,9 @@ async def ping_task():
 async def on_ready():
     pingr.loop.create_task(ping_task())
 
-@pingr.slash_command(guild_ids=[spam_guild])
+@pingr.slash_command(guild_ids=[guildid])
 async def ping(ctx):
     await ctx.respond(f"{round(pingr.latency * 1000)}ms")
 
 
-#paste token below
-pingr.run("")
+pingr.run(bottoken)
