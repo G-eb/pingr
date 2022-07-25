@@ -11,7 +11,7 @@ pingr = commands.Bot(command_prefix="_", help_command=None)
 with open("config.json") as f:
     geb = json.load(f)
 with open("config.json") as f:
-    guildid = geb["spam_guild_id"]
+    guildid = int(geb["spam_guild_id"])
     roleid = geb["ping_role_id"]
     bottoken = geb["bot_token"]
 
@@ -22,7 +22,7 @@ async def ping_task():
             if isinstance(channel, discord.TextChannel):
                 if channel.name.startswith('ping'):
                     await channel.send(f"<@&{roleid}>")
-                    await asyncio.sleep(1)
+                    await asyncio.sleep(0.1)
                 else:
                     pass
                   
