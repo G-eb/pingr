@@ -6,7 +6,6 @@ import json
 pingr = commands.Bot(command_prefix="_", help_command=None)
 
 # full credits of this code goes to Geb#1337
-# working versions of this bot can be found in https://discord.gg/pings
 
 with open("config.json") as f:
     geb = json.load(f)
