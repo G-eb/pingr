@@ -1,18 +1,18 @@
 import discord
 from discord.ext import commands
 import asyncio
-import json
+from json import load
 
 pingr = commands.Bot(command_prefix="_", help_command=None)
 
 # full credits of this code goes to Geb#1337
+# Optimized by Xemulated in 7 minutes
 
-with open("config.json") as f:
-    geb = json.load(f)
-with open("config.json") as f:
-    guildid = int(geb["spam_guild_id"])
-    roleid = geb["ping_role_id"]
-    bottoken = geb["bot_token"]
+with open('settings.json') as f:
+        d = load(f)
+        guildid = int(d["spam_guild_id"])
+        roleid = d["ping_role_id"]
+        token = d["bot_token"]
 
 async def ping_task():
     while True:
@@ -24,7 +24,7 @@ async def ping_task():
                     await asyncio.sleep(0.1)
                 else:
                     pass
-                  
+
 @pingr.event
 async def on_ready():
     pingr.loop.create_task(ping_task())
@@ -33,5 +33,4 @@ async def on_ready():
 async def ping(ctx):
     await ctx.respond(f"{round(pingr.latency * 1000)}ms")
 
-
-pingr.run(bottoken)
+pingr.run(token)
